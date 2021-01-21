@@ -1,7 +1,7 @@
 # Minesweeper
 This is the start of my own version of Minesweeper.
 
-To play the game, run the MineSweeper17.0.5.ps1 file. I'm not sure if it matters, but the folder on my PC is stored on D:\MineSweeper, so if there are any static links, which I hope I don't have any, you may want to store the game on a thumb drive, like how I have it stored.
+To play the game, run the MineSweeper16.5.8.9works.ps1 file. MineSweeper17.0.5.ps1 file will more likely result in a breaking error. I'm not sure if it matters, but the folder on my PC is stored at D:\MineSweeper, so if there are any static links, which I hope I don't have any, you may want to store the game on a thumb drive, like how I have it stored.
 
 This game has music and images, it allows you to create and save a profile, allows you to set your game difficulty and field size, and allows you to right-click to mark where you think a bomb is.
 
