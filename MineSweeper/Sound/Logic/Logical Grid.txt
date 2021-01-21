@@ -1,0 +1,33 @@
+pau0 mut0 nex0 son0 wL0 = No Action
+pau1 mut0 nex0 son0 wL0 = Pause
+pau2 mut0 nex0 son0 wL0 = UnPause
+pau0 mut1 nex0 son0 wL0 = Mute
+pau1 mut1 nex0 son0 wL0 = Pause, Mute
+pau2 mut1 nex0 son0 wL0 = UnPause, Mute
+pau0 mut2 nex0 son0 wL0 = UnMute
+pau1 mut2 nex0 son0 wL0 = Pause, UnMute
+pau2 mut2 nex0 son0 wL0 = UnPause, UnMute
+pau0 mut0 nex1 son0 wL0 = NextSong
+pau1 mut0 nex1 son0 wL0 = NextSong, Pause
+pau2 mut0 nex1 son0 wL0 = UnPause, NextSong ??? If setting is paused, will next song play?
+pau0 mut0 nex0 son1 wL0 = ChangeSong
+pau1 mut0 nex0 son1 wL0 = ChangeSong, Pause
+pau2 mut0 nex0 son1 wL0 = UnPause, ChangeSong??? If setting is paused, will next song play?
+pau0 mut0 nex0 son0 wL1 = winLose
+pau1 mut0 nex0 son0 wL1 = winLose, Pause
+pau2 mut0 nex0 son0 wL1 = UnPause, winLose ??? If setting is paused, will next song play?
+pau0 mut0 nex0 son0 wL0
+pau1 mut0 nex0 son0 wL0
+pau2 mut0 nex0 son0 wL0
+pau0 mut0 nex0 son0 wL0
+pau1 mut0 nex0 son0 wL0
+pau2 mut0 nex0 son0 wL0
+pau0 mut0 nex0 son0 wL0
+pau1 mut0 nex0 son0 wL0
+pau2 mut0 nex0 son0 wL0
+pau0 mut0 nex0 son0 wL0
+pau1 mut0 nex0 son0 wL0
+pau2 mut0 nex0 son0 wL0
+pau0 mut0 nex0 son0 wL0
+pau1 mut0 nex0 son0 wL0
+pau2 mut0 nex0 son0 wL0

@@ -1,0 +1,26 @@
+Start game off by choosing a random song order and looping through
+	Play (This is automatic when the game starts)
+Keep playing in loop until:
+	pause=$true (pauses current position of current song)
+		Used when bomb or win round occurs
+	pause=$false (Unpauses current position of current song)
+		Used when bomb or win round ends
+	mute=$true (mutes music, even though it'll keep playing. Also mutes end of round music)
+		User manually pushes mute button or use mute setting stored in their config
+	mute=$false (Unmutes music)
+		User manually pushes mute button or use mute setting stored in their config
+	A stop (Stops the music)
+		On close event of PS session? I think this is automatic.
+---------------------------
+Only call Sound module once. After that only change SoundConfig.txt with requested changes, including song.
+	The Sound module will read the SoundConfig file ever 200ms and check for changes.
+	If Pause is $true, it pauses the current song.
+	If Pause is $false, it unpauses current song.
+	If Mute is $true, it mutes all sounds.
+	If Mute is $false, it does not mute any sounds.
+	
+Have a separate job that simply loops through the songs after they've been set, and then 
+
+--------------------------------
+
+CHECK KILL PID TO SEE IF IT DOESN"T SEE THE CORRECT PID NUMBER

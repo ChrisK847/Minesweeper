@@ -1,0 +1,12 @@
+Mute
+UnMute
+Paused
+UnPaused
+HoldNextSongFlag
+PlayWinLoseSong
+EndWinLoseSongFlag.
+PlayNextSong
+
+NextSong
+$song = SoundGetGV "PlayList" $(SoundGetGV "Playing")
+SoundSetGV "Song" $song "$(LineNumber), wmp-fChange-ChangeSong"

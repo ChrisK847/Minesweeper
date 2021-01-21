@@ -1,0 +1,24 @@
+Within Minesweeper Script
+	Start Sound Module; no sound required on startup
+	Call SetGV when requiring change
+		Sound Module picks up changes and begins playing, pausing songs
+
+Within Sound Module:
+	Loop every 200 miliseconds
+		GetGV
+			Sound Settings
+		If(Settings.txt same as current Variable values){}Else{update Sound Module Variable Values}
+	End Loop
+------------------------------------------------------------------------------------
+
+Within Minesweeper Script
+	Start Sound Module; no sound required on startup
+	Call SetGV when requiring change
+		Sound Module picks up changes and begins playing, pausing songs
+
+Within Sound Module:
+	Loop every 200 miliseconds
+		GetGV
+			Sound Settings
+		If(Settings.txt same as current Variable values){}Else{update Sound Module Variable Values}
+	End Loop

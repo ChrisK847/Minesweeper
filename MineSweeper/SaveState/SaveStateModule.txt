@@ -1,0 +1,28 @@
+Function SaveState{
+
+
+$hash.GlobalVariables += @{
+				User = $script:user;
+				Difficulty = $script:difficulty;
+				Rows = $script:rows;
+				Mute = $script:mute;
+                		ButtonArray = $buttonArray
+				Bomb = $bomb
+				SquareHeight = $squareHeight
+				Size = $size
+				imgSize = $imgSize
+				StatsBombs = $script:statsBombs
+				Score = $score
+				Win = $Win
+				scriptScore = $script:score
+				scriptWin = $script:Win
+				scriptReplay = $script:replay
+				imgButton = $imgButton
+				rightClickImage = $rightClickImage
+				rightClickImageSmall = $rightClickImageSmall
+				rightClickImageLarge = $rightClickImageLarge
+				bombImgPath = $bombImgPath
+		    }
+
+
+}
