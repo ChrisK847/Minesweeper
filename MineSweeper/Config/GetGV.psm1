@@ -1,6 +1,6 @@
 ﻿function GetGV($user, $attribute){
-    Out-file -FilePath "D:\MineSweeper\Logs\GetGVLogs.txt" -InputObject "$user, $attribute`n$($user -eq "*"), $($attribute -eq "*")`n$($user -like "*"), $($attribute -like "*")`n$($user -ne "*"), $($attribute -ne "*")`n$($user -notlike "*"), $($attribute -notlike "*")"
     $basePath = (get-item $psscriptroot).parent.FullName
+    Out-file -FilePath "$basePath\Logs\GetGVLogs.txt" -InputObject "$user, $attribute`n$($user -eq "*"), $($attribute -eq "*")`n$($user -like "*"), $($attribute -like "*")`n$($user -ne "*"), $($attribute -ne "*")`n$($user -notlike "*"), $($attribute -notlike "*")"
     $Json = Get-Content "$basePath\Config\GV.txt"
     $PSCustomObj = $Json | ConvertFrom-Json
     If($user -eq "*" -and $attribute -ne "*"){
