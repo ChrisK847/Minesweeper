@@ -1,12 +1,12 @@
 ﻿#Combines Logs from WMP logs and Script logs
 cls
-Try{$SetGVLogs=Get-Content "D:\MineSweeper\Logs\SoundSetGVLogs.txt"}Catch{}
-Try{$WMPLogs=Get-Content "D:\MineSweeper\Logs\WMPSoundLog.txt"}Catch{}
-Try{$ScriptLogs=Get-Content "D:\MineSweeper\Logs\ScriptLog.txt"}Catch{}
-Try{$GetGVLogs=Get-Content "D:\MineSweeper\Logs\SoundGetGVLogs.txt"}Catch{}
-Try{$BlankConfigLogs=Get-Content "D:\MineSweeper\Logs\BlankConfigFile.txt"}Catch{}
-Try{$MediaLogs=Get-Content "D:\MineSweeper\Logs\MediaLogs.txt"}Catch{}
-Try{$MutexLogs=Get-Content "D:\MineSweeper\Logs\mutex.txt"}Catch{}
+Try{$SetGVLogs=Get-Content "$PSScriptRoot\SoundSetGVLogs.txt"}Catch{}
+Try{$WMPLogs=Get-Content "$PSScriptRoot\WMPSoundLog.txt"}Catch{}
+Try{$ScriptLogs=Get-Content "$PSScriptRoot\ScriptLog.txt"}Catch{}
+Try{$GetGVLogs=Get-Content "$PSScriptRoot\SoundGetGVLogs.txt"}Catch{}
+Try{$BlankConfigLogs=Get-Content "$PSScriptRoot\BlankConfigFile.txt"}Catch{}
+Try{$MediaLogs=Get-Content "$PSScriptRoot\MediaLogs.txt"}Catch{}
+Try{$MutexLogs=Get-Content "$PSScriptRoot\mutex.txt"}Catch{}
 $AllLogs=$null
 ForEach($logs in $SetGVLogs,$WMPLogs,$ScriptLogs,$GetGVLogs,$BlankConfigLogs,$MediaLogs,$MutexLogs){
     $AllLogs += $logs

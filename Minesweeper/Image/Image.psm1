@@ -1,7 +1,6 @@
 ﻿Function Image([string]$imgLoad){
     [System.Windows.Forms.Application]::EnableVisualStyles();
     Add-Type -AssemblyName System.Drawing
-    [void][reflection.assembly]::LoadWithPartialName("System.Windows.Forms")
     
     $ParentPath = (get-item $PSScriptRoot).parent.FullName
     $Path = (get-item $PSScriptRoot).FullName
