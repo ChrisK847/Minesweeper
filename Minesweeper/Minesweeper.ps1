@@ -6,9 +6,9 @@ import-module "$script:ModuleRoot\Config\GetGV.psm1" -Function GetGV #9/44
 import-module "$script:ModuleRoot\Config\ResetGV.psm1" -Function ResetGV #9/44
 import-module "$script:ModuleRoot\Config\AddRemoveGV.psm1" -Function AddRemoveGV #9/44
 import-module "$script:ModuleRoot\Config\SetGV.psm1" -Function SetGV #9/44
-Import-Module $script:ModuleRoot\Image\Image.psm1
-Import-Module $script:ModuleRoot\PSSoundBoard\0.1.451030\PSSoundBoard.psd1
-Set-SBPlaylist -Playlist $script:ModuleRoot\Sound\Sounds\Surrounded-by-the-Enemy.wav
+Import-Module "$script:ModuleRoot\Image\Image.psm1"
+Import-Module "$script:ModuleRoot\PSSoundBoard\0.1.451030\PSSoundBoard.psd1"
+Set-SBPlaylist -Playlist "$script:ModuleRoot\Sound\Sounds\Surrounded-by-the-Enemy.wav"
 Start-SBMusic
 
 #NOTES
