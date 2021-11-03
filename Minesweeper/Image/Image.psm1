@@ -1,7 +1,7 @@
 ﻿Function Image([string]$imgLoad){
     [System.Windows.Forms.Application]::EnableVisualStyles();
     Add-Type -AssemblyName System.Drawing
-    
+    [void][reflection.assembly]::LoadWithPartialName("System.Windows.Forms")
     $ParentPath = (get-item $PSScriptRoot).parent.FullName
     $Path = (get-item $PSScriptRoot).FullName
     switch ($imgLoad){
@@ -20,7 +20,9 @@
    
     $img = [System.Drawing.Image]::Fromfile($file);
     $form = new-object Windows.Forms.Form
-    $form.Text = ""
+    #$form.ControlBox = $false # new as of 11/3/2021
+    $form.FormBorderStyle = "None" #System.Windows.Forms.FormBorderStyle.None; # new as of 11/3/2021
+    #$form.Text.Empty;
     $form.MainMenuStrip
     $form.Width = $($img.Size.Width + 10);
     $form.Height = $($img.Size.Height + 39);
@@ -35,6 +37,6 @@
     if($imgLoad -eq "Bomb"){sleep -milliseconds 850}
     $form.Activate();
     Start-Sleep -Milliseconds 150
-    $form.Showdialog();  
+    $form.Showdialog();
 }
 Export-ModuleMember -Function Image

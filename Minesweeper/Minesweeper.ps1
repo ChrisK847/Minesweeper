@@ -1,14 +1,26 @@
-﻿$script:ModuleRoot = $PSScriptRoot
+﻿Clear-Host
+$script:ModuleRoot = $PSScriptRoot
 $basePath = $script:ModuleRoot
 $logsPath = "$basePath\Logs\ScriptLog.txt", "$basePath\Logs\WMPSoundLog.txt", "$basePath\Logs\BlankConfigFile.txt"
-
+$logsOnOff = "Off"
+Import-Module "$script:ModuleRoot\Sound\Modules\SoundGetGV\SoundGetGV.psm1" -Function SoundGetGV
+Import-Module "$script:ModuleRoot\Sound\Modules\SoundSetGV\SoundSetGV.psm1" -Function SoundSetGV
+SoundSetGV "Path" $basePath 8 "Config" $logsPath[0]
 import-module "$script:ModuleRoot\Config\GetGV.psm1" -Function GetGV #9/44
 import-module "$script:ModuleRoot\Config\ResetGV.psm1" -Function ResetGV #9/44
 import-module "$script:ModuleRoot\Config\AddRemoveGV.psm1" -Function AddRemoveGV #9/44
 import-module "$script:ModuleRoot\Config\SetGV.psm1" -Function SetGV #9/44
 Import-Module "$script:ModuleRoot\Image\Image.psm1"
 Import-Module "$script:ModuleRoot\PSSoundBoard\0.1.451030\PSSoundBoard.psd1"
-Set-SBPlaylist -Playlist "$script:ModuleRoot\Sound\Sounds\Surrounded-by-the-Enemy.wav"
+#Test-Path "$PSScriptRoot\PSSoundBoard\0.1.451030\lib\PSSoundBoardLib.dll"
+Add-Type -Path "$PSScriptRoot\PSSoundBoard\0.1.451030\lib\PSSoundBoardLib.dll"
+#Add-Type -Path "C:\Users\cjohn\Desktop\Game Shortcuts\Powershell Local\Minesweeper-master\Minesweeper-master\Minesweeper\PSSoundBoard\0.1.451030\lib\PSSoundBoardLib.dll"
+#Get-Module * | Sort-Object Name
+#Get-Command -Module PSSoundBoard
+#pause
+
+
+Set-SBPlaylist -Playlist "$script:ModuleRoot\Sound\Sounds\Surrounded-by-the-Enemy.wav","$script:ModuleRoot\Sound\Sounds\Yankee-Doodle-Dandy.wav","$script:ModuleRoot\Sound\Sounds\Ultimate-Victory.wav" -Shuffle -Repeat
 Start-SBMusic
 
 #NOTES
@@ -302,7 +314,7 @@ Function Stats() {
         BombSqaureRatio = if ($script:winLose -eq $null -or $script:winLose -eq "0" -or $script:winLose -eq 0 -or $script:winLose -eq "") { "" }else { $($($($script:totalBombs / 1) / $($($script:numRows / 1) * $($script:numRows / 1))).ToString("P")) };
     }
     If (Test-Path "$psscriptroot\Stats\GameStats.csv") {
-        $careerStats = Import-Csv -Path "$psscriptroot\Stats\GameStats.csv" #WHAT IS CAREER STATS USED FOR?
+        #$careerStats = Import-Csv -Path "$psscriptroot\Stats\GameStats.csv" #WHAT IS CAREER STATS USED FOR?
         $stats | Export-Csv -NoTypeInformation "$psscriptroot\Stats\GameStats.csv" -Append -Force
     }
     else {
@@ -317,7 +329,7 @@ Function GetStats($bombs, $Rows, $Allstats) {
     #IMPORT CSV AND TYPECAST
     Try {
         $csv = Import-Csv "$PSScriptroot\Stats\GameStats.csv" | 
-        Select @{Name = "Date"; Expression = { $([datetime]$($_.Date)) } }, `
+        Select-Object @{Name = "Date"; Expression = { $([datetime]$($_.Date)) } }, `
             User, `
             WinLose, `
         @{Name = "TimeInSeconds"; Expression = { [double]$_.TimeInSeconds } }, `
@@ -342,11 +354,11 @@ Function GetStats($bombs, $Rows, $Allstats) {
 
     #FILTER STATS
 
-    $s = $($renameSummary | Sort @{e = "`nRows"; Ascending = $true }, @{e = "`nBombs"; Ascending = $true }, `nSeconds, @{e = "`nDate"; Descending = $true }) #9/4
+    $s = $($renameSummary | Sort-Object @{e = "`nRows"; Ascending = $true }, @{e = "`nBombs"; Ascending = $true }, `nSeconds, @{e = "`nDate"; Descending = $true }) #9/4
             
     Try {
-        $rr = $($($s | Sort @{e = "`nRows"; Ascending = $true } -Unique | % { $_."`nRows" | Out-String }).Trim())
-        $bb = $($($s | Sort @{e = "`nBombs"; Ascending = $true } -Unique | % { $_."`nBombs" | Out-String }).Trim())
+        $rr = $($($s | Sort-Object @{e = "`nRows"; Ascending = $true } -Unique | % { $_."`nRows" | Out-String }).Trim())
+        $bb = $($($s | Sort-Object @{e = "`nBombs"; Ascending = $true } -Unique | % { $_."`nBombs" | Out-String }).Trim())
     }
     catch {}
     $r = $Rows
@@ -603,11 +615,12 @@ Function Mute($mute, $logsPath) {
 
 
 Function Pause($pause, $logsPath) {
-    Write-Host "Pause function called with pause = $pause; logsPath = $logsPath "
+    #Write-Host "Pause function called with pause = $pause; logsPath = $logsPath "
+    Start-Sleep -Milliseconds $pause
 }
 
 #SEE HOW I CAN ADD MUTEX TO THIS
-function Media {
+workflow Media {
     param(
 
         [Parameter(Mandatory = $False, Position = 1)]
@@ -629,14 +642,8 @@ function Media {
         [string]$lineNumber
 
     )
-
-    process {
-        #$inlineSet = [scriptblock]::Create("import-module -Name $pathSet")
-        $inlineImage = [scriptblock]::Create("import-module -Name $imagePath")
-        Image $imageName
-        #start-job -InitializationScript $inlineImage -ScriptBlock { Image $args[0] } -ArgumentList $imageName | Receive-Job
-        #THIS MAY OR MAY NOT NEED TO BE DONE IN PARALLEL. I COULD TEST THIS.
-    }
+    $inlineImage = [scriptblock]::Create("import-module -Name $imagePath")
+    $null = @(start-job -InitializationScript $inlineImage -ScriptBlock { Image $args[0] } -ArgumentList $imageName | Receive-Job)
 }
 
 
@@ -867,7 +874,7 @@ Function LoadUser {
                 $outgridview2 | Export-Csv -NoTypeInformation "$PSScriptRoot/Stats/FastestGame.csv"
             }
             else {        
-                $oReturn = [System.Windows.Forms.MessageBox]::Show("There are no top scores to show.", "Top Score", [System.Windows.Forms.MessageBoxButtons]::Ok) 
+                [System.Windows.Forms.MessageBox]::Show("There are no top scores to show.", "Top Score", [System.Windows.Forms.MessageBoxButtons]::Ok) 
             }
         })
 
@@ -1267,7 +1274,7 @@ Function Form($user, $difficulty, $numRows, $mute, $logsPath, $logsOnOff) {
     $script:replay = 0
     $c = 0
     $r = 0
-    $imgButton = [System.Drawing.Image]::FromFile("$PSScriptRoot\Image\imgButton.png") #Camo or button theme
+    #$imgButton = [System.Drawing.Image]::FromFile("$PSScriptRoot\Image\imgButton.png") #Camo or button theme
     $rightClickImage = [System.Drawing.Image]::FromFile("$PSScriptRoot\Image\RightClick.png") #Marker for bombs when right-clicking
     $rightClickImageSmall = [System.Drawing.Image]::FromFile("$PSScriptRoot\Image\RightClickSmall.png") #Marker for bombs when right-clicking
     $rightClickImageLarge = [System.Drawing.Image]::FromFile("$PSScriptRoot\Image\RightClickLarge.png") #Marker for bombs when right-clicking
@@ -1392,7 +1399,7 @@ Function Form($user, $difficulty, $numRows, $mute, $logsPath, $logsOnOff) {
     }
     If (Test-Path "$PSScriptRoot\Sound\Modules\SoundGetGV\SoundGetGV.psm1") {
         ######### Commented Out 10/19/2020 
-        $pathGet = """$PSScriptRoot\Sound\Modules\SoundGetGV\SoundGetGV.psm1"""
+        #$pathGet = """$PSScriptRoot\Sound\Modules\SoundGetGV\SoundGetGV.psm1"""
     }
     else {
         write-output "NOT FOUND! $PSScriptRoot\Sound\Modules\SoundGetGV\SoundGetGV.psm1"
@@ -1479,24 +1486,31 @@ Function Form($user, $difficulty, $numRows, $mute, $logsPath, $logsOnOff) {
                 If ([int]$this.Name -in $bomb) {
                     $timer.stop()
                     $script:finishedRound = 1
-                    Write-Host "Bomb";
+                    #Write-Host "Bomb";
+                    Media $pathSet $imagePath "Bomb" "Bomb" $logsPath $(LineNumber) #LOSE IMAGE ##########################################1/10#####################################
+                    pause 600 $logsPath
+                    Start-SBEffect -Path "$script:ModuleRoot\Sound\Sounds\bomb.wav"
                     $script:winLose = "Lose"
                     $this.Image = $bombImgPath
                     $this.BackgroundImageLayout = "Stretch"
                     $this.ForeColor = 'White'
-                    Start-SBEffect -Path $script:ModuleRoot\Sound\Sounds\bomb.wav
-                    Media $pathSet $imagePath "Bomb" "Bomb" $logsPath $(LineNumber) #PLAY LOSE MUSIC AND IMAGE ##########################################1/10#####################################
+
+                    #Write-host "Line 1495,`n PathSet = $pathset,`n imagePath = $imagePath,`n logsPath = $logsPath,`n lineNumber = $(LineNumber)"
+                   
+                    pause 4000 $logsPath
                     If ($LogsOnOff -eq 'On') {
                         Mutex { "$(Get-Date -Format "MM/dd/yyyy HH:mm:ss.fff"), Line=1371, LineName=LOSE ACTION: Bomb Sound was supposed to play and after it ended was supposed to trigger this line in." | Out-File $logsPath -Append } "Logs"
                     }
                     Try {
                         #KILL IMAGE PID ONLY
+                        
                         $id = Get-WmiObject win32_process -filter "Name='powershell.exe' AND ParentProcessId=$PID" | Select ProcessID
-                        $id.ProcessID | % { if ($_ -ne $(SoundGetGV "PID" $null $(LineNumber) "LoseActionKillPID" $logsPath)) { Stop-Process -Id $_ } } -ErrorAction Stop
+                        $id.ProcessID | % {if ($_ -ne $(SoundGetGV "PID" $null $(LineNumber) "LoseActionKillPID" $logsPath)) { Stop-Process -Id $_ }} -ErrorAction Stop
+                        #write-host "Line 1501, Lose Action, Try, Attempt to kill image" 
                     }
-                    catch {}
+                    catch {write-host "Lose Action, Catch, did not kill image PID, error = $_" }
                     #IF CONVERTED FROM PROCESSS TO THREADS, I'LL NEED TO CAPTURE THE THREAD NAME OR SOMETHING.
-                    Pause 2 $logsPath
+                    #Pause 2 $logsPath
                     $objForm.Activate();
 
                     #REVEAL ALL SQUARES LOSE
@@ -1525,35 +1539,40 @@ Function Form($user, $difficulty, $numRows, $mute, $logsPath, $logsOnOff) {
                 #WIN ACTION                            
                 else {
                     $script:score = $($script:score + [int]$this.Name)
-                    $currentscore = $([int]$this.Name)
+                    #$currentscore = $([int]$this.Name)
                     $objScoreboard.Text = "Score: $script:score / $script:win Points"
                     $this.Enabled = $false
                     $this.BackColor = 'LightSeaGreen'
                     $this.ForeColor = 'Gold'
                     GetBombCount $buttonArray, $this
                     $this.Image = $script:bombImg
-                    $r = 1
+                    #$r = 1
                     if ($script:score -ge $script:win) {
                         
                         $Timer.Stop();
                         $script:finishedRound = 1
-                        Write-Host "Mission Completed!";
+                        #Write-Host "Mission Completed!";
                         $script:winLose = "Win"
-                        Pause 1 $logsPath
-                        Start-SBEffect -Path $script:ModuleRoot\Sound\Sounds\winTrumpets.wav
+                        #Pause 1 $logsPath
                         Media $pathSet $imagePath "Win" "Win" $logsPath $(LineNumber) #PLAY WIN MUSIC AND IMAGE
-                        #sleep -Seconds 6 #CAN THIS BE UPDATED TO USE END OF SONG EVENT? COMMENTED OUT 10/31/2020 replaced with DoWhile Loop checking for MediaEndedFlag
+                        pause 500 $logsPath
+                        Start-SBEffect -Path "$script:ModuleRoot\Sound\Sounds\winTrumpets.wav"
                         
-                        Mutex { "$(Get-Date -Format "MM/dd/yyyy HH:mm:ss.fff"), Line=$(LineNumber), LineName=Win ACTION: Win Sound was supposed to play and after it ended was supposed to trigger this line in." | Out-File $logsPath -Append } "Logs"
+                        #sleep -Seconds 6 #CAN THIS BE UPDATED TO USE END OF SONG EVENT? COMMENTED OUT 10/31/2020 replaced with DoWhile Loop checking for MediaEndedFlag
+                        pause 6000 $logsPath
+                        If ($logsPath -eq 'On'){
+                            Mutex { "$(Get-Date -Format "MM/dd/yyyy HH:mm:ss.fff"), Line=$(LineNumber), LineName=Win ACTION: Win Sound was supposed to play and after it ended was supposed to trigger this line in." | Out-File $logsPath -Append } "Logs"
+                        }
                         Try {
                             #KILL IMAGE PID ONLY
                             $id = Get-WmiObject win32_process -filter "Name='powershell.exe' AND ParentProcessId=$PID" | Select ProcessID
+                            #write-host $id
                             $id.ProcessID | % { if ($_ -ne $(SoundGetGV "PID" $null $(LineNumber) "WinActionKillPID" $logsPath)) { Stop-Process -Id $_ } } -ErrorAction Stop
                         }
-                        catch {}
-                        Pause 2 $logsPath
+                        catch {write-host "Win Round, couldn't kill PID. Error = $_"}
+                        #Pause 1 $logsPath
                         $objForm.Activate(); 
-                        sleep -milliseconds 1000; #Do I need this sleep?
+                        #sleep -milliseconds 1000; #Do I need this sleep?
                         #REVEAL ALL SQUARES WIN
                         Foreach ($item in $objForm.Controls) {
                             if ($item.gettype() -like "System.Windows.Forms.Button" -and $item.Name -ne "backButton" -and $item.Name -ne "replayButton" -and $item.Name -ne "exitButton" -and $item.Name -ne "saveStateButton") {
@@ -1659,7 +1678,7 @@ Function Form($user, $difficulty, $numRows, $mute, $logsPath, $logsOnOff) {
     $t = $t + 1
     $z = 1
     $g = 0
-    $x = 0
+    #$x = 0
     $v = 0
     $itemClicked = 0
     Do {
@@ -1671,7 +1690,7 @@ Function Form($user, $difficulty, $numRows, $mute, $logsPath, $logsOnOff) {
                             $item.performclick();
                             $itemClicked = 1;
                             $script:score = $($script:score + [int]$item.Name)
-                            $currentscore = $([int]$item.Name)
+                            #$currentscore = $([int]$item.Name)
                             $objScoreboard.Text = "Score: $script:score / $script:win Points"
                             $item.Enabled = $false
                             $item.BackColor = 'LightSeaGreen'
@@ -1757,7 +1776,7 @@ Add-Type -AssemblyName System.Drawing
 $c = $null
 $r = $null
 $score = 0
-$currentScore = 0
+#$currentScore = 0
 $FormatEnumerationLimit = -1
 $random = New-Object -TypeName System.Random
 $difficulty = 2
@@ -1770,19 +1789,19 @@ $user = "Player1"
 $back = 0
 $finishedGame = 0
 $param = @()
-$userSettings = @()
+#$userSettings = @()
 #$time = 0
 $stats = @()
 $songName = ""
 $totalBombs = 0
 $statsBombs = 0
-$careerStats = @{}
+#$careerStats = @{}
 $finishedRound = 0
 $timerCount = 0
 $replay = 0
 $imgSize = 0
 $randomGame = $false
-[int]$musicID = 1
+#[int]$musicID = 1
 $replay2 = 0
 $giveUp = 0
 
@@ -1802,14 +1821,14 @@ CreateBombImage $b $f
 
     #USERFORM CALL    
     if ($finishedGame -eq 0 -or $finishedGame -eq $null) {
-        $null = $userSettings = LoadUser $user $difficulty $numRows $mute $logsPath[0] $logsOnOff
+        $null = LoadUser $user $difficulty $numRows $mute $logsPath[0] $logsOnOff
     }
 
     $finishedGame = 0
     if ($exit -eq 1) { [System.GC]::Collect(); exit }
     #SETTINGSFORM CALL
     if ($QuickStart -eq 0 -or $QuickStart -eq $null) {
-        if ($script:param -ne "" -and $script:param -ne $null) { $userSettings = $script:param }
+        #if ($script:param -ne "" -and $script:param -ne $null) { $userSettings = $script:param }
         $script:param = ParametersForm $user $difficulty $numRows $mute $logsPath[0] $logsOnOff
         if ($exit -eq 1) { [System.GC]::Collect(); exit }
         if ($back -eq 1) { $script:back = 0; $back = 0; if ($script:param -ne "" -or $script:param -ne $null) { $script:param = $null }; continue loop }

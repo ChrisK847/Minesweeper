@@ -1,0 +1,12 @@
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\bin\Debug\PSSoundBoardLib.dll
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\bin\Debug\PSSoundBoardLib.pdb
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\bin\Debug\System.Management.Automation.dll
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\bin\Debug\Microsoft.Management.Infrastructure.dll
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\bin\Debug\Microsoft.Management.Infrastructure.Native.dll
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\bin\Debug\System.Management.Automation.xml
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\obj\Debug\PSSoundBoardLib.csproj.AssemblyReference.cache
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\obj\Debug\PSSoundBoardLib.csproj.CoreCompileInputs.cache
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\obj\Debug\PSSoundBoardLib.csproj.CopyComplete
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\obj\Debug\PSSoundBoardLib.dll
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\obj\Debug\PSSoundBoardLib.pdb
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\bin\Debug\PSSoundBoardLib.xml

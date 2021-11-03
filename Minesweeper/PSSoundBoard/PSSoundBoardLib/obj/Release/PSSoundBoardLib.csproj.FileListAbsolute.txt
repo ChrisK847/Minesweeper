@@ -1,0 +1,8 @@
+C:\Users\jh\source\repos\PSSoundBoard\output\PSSoundBoardLib\Release\PSSoundBoardLib.xml
+C:\Users\jh\source\repos\PSSoundBoard\output\PSSoundBoardLib\Release\PSSoundBoardLib.dll
+C:\Users\jh\source\repos\PSSoundBoard\output\PSSoundBoardLib\Release\PSSoundBoardLib.pdb
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\obj\Release\PSSoundBoardLib.csproj.AssemblyReference.cache
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\obj\Release\PSSoundBoardLib.csproj.CoreCompileInputs.cache
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\obj\Release\PSSoundBoardLib.csproj.CopyComplete
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\obj\Release\PSSoundBoardLib.dll
+C:\Users\jh\source\repos\PSSoundBoard\PSSoundBoardLib\obj\Release\PSSoundBoardLib.pdb
