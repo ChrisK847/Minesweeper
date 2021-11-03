@@ -1,6 +1,6 @@
 ﻿function SoundGetGV($attribute,$index,$line,$lineName,$logsPath){
     $ErrorActionPreference = 'Stop'
-    $logsOnOff = 'On' #On or Off
+    $logsOnOff = 'Off' #On or Off
 
     function LineNumber {
         $MyInvocation.ScriptLineNumber
