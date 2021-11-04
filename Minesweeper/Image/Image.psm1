@@ -24,8 +24,8 @@
     $form.FormBorderStyle = "None" #System.Windows.Forms.FormBorderStyle.None; # new as of 11/3/2021
     #$form.Text.Empty;
     $form.MainMenuStrip
-    $form.Width = $($img.Size.Width + 10);
-    $form.Height = $($img.Size.Height + 39);
+    $form.Width = $($img.Size.Width);
+    $form.Height = $($img.Size.Height);
     $form.StartPosition = "CenterScreen"
     $form.Topmost = $True
     $pictureBox = new-object Windows.Forms.PictureBox
